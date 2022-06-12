@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- 引入配置文件 -->
+    <properties resource="application-dev.properties"/>
+
+    <!-- 一个数据库一个context,context的子元素必须按照它给出的顺序
+    property*,plugin*,commentGenerator?,jdbcConnection,javaTypeResolver?,
+    javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+
+-->
+    <!-- 这个插件给生成的Java模型对象增加了equals和hashCode方法 -->
+    <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
+
+
+    <!-- 配置 table 表信息内容体，targetRuntime 指定采用 MyBatis3 的版本 -->
+    <context id="tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 抑制生成注释，由于生成的注释都是英文的，可以不让它生成 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 不希望生成的注释中包含时间戳 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 配置数据库连接信息 -->
+        <jdbcConnection driverClass="${spring.datasource.driverClassName}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
+            <!--高版本的 mysql-connector-java 需要设置 nullCatalogMeansCurrent=true-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!--是否使用bigDecimal，默认false。
+                false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
+                true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal-->
+            <property name="forceBigDecimals" value="true"/>
+            <!--默认false
+                false，将所有 JDBC 的时间类型解析为 java.util.Date
+                true，将 JDBC 的时间类型按如下规则解析
+                    DATE	                -> java.time.LocalDate
+                    TIME	                -> java.time.LocalTime
+                    TIMESTAMP               -> java.time.LocalDateTime
+                    TIME_WITH_TIMEZONE  	-> java.time.OffsetTime
+                    TIMESTAMP_WITH_TIMEZONE	-> java.time.OffsetDateTime
+                -->
+            <!--<property name="useJSR310Types" value="false"/>-->
+        </javaTypeResolver>
+
+        <!--
+            生成 model 类，targetPackage 指定 model 类的包名，
+            targetProject 指定生成的 model 放在 eclipse 的哪个工程下面
+        -->
+        <javaModelGenerator targetPackage="com.bjpowernode.money.model"
+                            targetProject="D:\PowerNode\ylb-demo\002-money-interface\src\main\java">
+            <!-- 是否让schema作为包的后缀，默认为false -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set方法中进行修剪，默认false -->
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+
+        <!--
+            生成 MyBatis 的 XxxxMapper.xml 文件，
+            targetPackage 指定 mapper.xml 文件的包名，
+            targetProject 指定生成的 mapper.xml 放在 eclipse 的哪个工程下面
+		-->
+        <sqlMapGenerator targetPackage="/"
+                         targetProject="src/main/resources/mappers">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+
+        <!--
+            生成 MyBatis 的 XxxxMapper 接口类文件,
+            targetPackage 指定 Mapper 接口类的包名，
+            targetProject 指定生成的 Mapper 接口放在 eclipse 的哪个工程下面
+        -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.bjpowernode.money.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- schema为数据库名，oracle需要配置，mysql不需要配置。
+				     tableName为对应的数据库表名
+				     domainObjectName 是要生成的实体类名(可以不指定)
+				     enableXXXByExample 默认为 true， 为 true 会生成一个对应Example帮助类，
+																帮助你进行条件查询，不想要可以设为false
+		     -->
+        <!-- 数据库表名及对应的 Java 模型类名 -->
+        <table tableName="u_user" domainObjectName="User"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="b_recharge_record" domainObjectName="RechargeRecord"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="b_loan_info" domainObjectName="LoanInfo"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="b_income_record" domainObjectName="IncomeRecord"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="b_bid_info" domainObjectName="BidInfo"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="u_finance_account" domainObjectName="FinanceAccount"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>
