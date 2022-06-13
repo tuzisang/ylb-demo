@@ -43,4 +43,47 @@ $(function() {
 			$("#btnRegist").addClass("fail");
 		}
 	});
+
+	//手机号校验
+	$("#phone").on("blur",function (){
+		var phone = $("#phone").val().trim();
+		if ("" == phone){
+			showError("phone", "请输入手机号码");
+		} else if(!/^1[1-9]\d{9}$/.test(phone)){
+			showError("phone", "请输入正确的手机号码");
+		} else{
+
+			$.ajax({
+				url: "../checkPhone",
+				type:"post",
+				data:{
+					phone:phone
+				},
+				success:function (result){
+					if (result.code != 200){
+						showError("phone", result.message);
+						return;
+					}
+
+					showSuccess("phone")
+				}
+			})
+		}
+	});
+
+	//验证登录密码
+	$("#loginPassword").on("blur", function (){
+		var password = $("#loginPassword").val().trim();
+		if ("" == password){
+			showError("loginPassword", "请输入密码");
+		}else if(!/^[0-9a-zA-Z]+$/.test(password)) {
+			showError("loginPassword", "密码只能使用数字和大小写英文字母");
+		}else if(!/^(([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+))[a-zA-Z0-9]*/.test(password)) {
+			showError("loginPassword", "密码必须包含英文和数字");
+		}else if(password.length < 6 || password.length > 20) {
+			showError("loginPassword", "密码长度应该6到20位");
+		} else {
+			showSuccess("loginPassword");
+		}
+	});
 });

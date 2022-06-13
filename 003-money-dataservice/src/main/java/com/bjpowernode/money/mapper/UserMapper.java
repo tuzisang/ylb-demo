@@ -23,4 +23,6 @@ public interface UserMapper {
 
     //根据电话和密码查询用户是否存在
     User selectByPhoneAndPassword(String phone, String password);
+
+    int isExistPhone(String phone);
 }

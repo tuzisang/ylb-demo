@@ -35,22 +35,22 @@ public class UserController {
     private FinanceAccountService financeAccountService;
 
     @GetMapping("/page/login")
-    public String toLogin(){
+    public String toLogin() {
 
         return "login";
     }
 
     @PostMapping("/page/login")
     @ResponseBody
-    public ApiResponse login(String captcha, String phone, String loginPassword, HttpSession session){
+    public ApiResponse login(String captcha, String phone, String loginPassword, HttpSession session) {
 
         String code = (String) session.getAttribute("loginCode");
-        if (!code.equalsIgnoreCase(captcha)){
+        if (!code.equalsIgnoreCase(captcha)) {
             return ApiResponse.error("验证码错误！");
         }
 
         User user = userService.queryByPhoneAndPassword(phone, loginPassword);
-        if (user ==null){
+        if (user == null) {
             return ApiResponse.error("账号或密码错误!");
         }
 
@@ -64,7 +64,7 @@ public class UserController {
 
     //退出登录
     @GetMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session) {
         session.invalidate();
 
         return "redirect:/index";
@@ -78,7 +78,7 @@ public class UserController {
         Graphics graphics = image.createGraphics();
 
         graphics.setColor(Color.white);
-        graphics.fillRect(1,1,76,34);
+        graphics.fillRect(1, 1, 76, 34);
 
         //绘制随机文字
         String code = RandomStringUtils.randomAlphabetic(4);
@@ -91,5 +91,22 @@ public class UserController {
         session.setAttribute("loginCode", code);
         //输出图片
         ImageIO.write(image, "jpg", resp.getOutputStream());
+    }
+
+    //跳到注册页面
+    @GetMapping("/page/register")
+    public String toRegister() {
+
+        return "register";
+    }
+
+    //检查手机号码是否重复
+    @PostMapping("/checkPhone")
+    @ResponseBody
+    public ApiResponse checkPhone(String phone) {
+        if(!userService.checkPhone(phone)){
+            return ApiResponse.error("该号码已存在!");
+        }
+        return ApiResponse.success("可以注册");
     }
 }
