@@ -1,8 +1,9 @@
 package com.bjpowernode.money.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RechargeRecord {
+public class RechargeRecord implements Serializable {
     private Integer id;
 
     private Integer uid;

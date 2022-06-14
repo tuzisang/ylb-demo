@@ -41,7 +41,7 @@
                     </h3>
                     <h4></h4>
                     <h4 th:text="${user.phone}"> 13725698888</h4>
-                    <h4>最近登录：[[${#dates.format(user.lastLoginTime, 'yyyy-MM-dd hh:mm:ss')}]]</h4>
+                    <h4>最近登录：[[${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}]]</h4>
 
                 </div>
                 <i class="borderRight"></i>
@@ -113,36 +113,13 @@
                         <span class="money">充值金额</span>
                         <span class="money">充值时间</span>
                     </dt>
-                    <dd>
-                        <span class="name">1</span>
-                        <span class="number">支付理财</span>
-                        <span class="money">1000.0</span>
-                        <span class="profit">2017-05-01</span>
+                    <dd th:each="r:${rechargeRecords}">
+                        <span class="name" th:text="${rStat.index+1}">1</span>
+                        <span class="number" th:text="${r.rechargeDesc}">支付理财</span>
+                        <span class="money" th:text="${r.rechargeMoney}">1000.0</span>
+                        <span class="profit" th:text="${#dates.format(r.rechargeTime, 'yyyy-MM-dd')}">2017-05-01</span>
                     </dd>
-                    <dd>
-                        <span class="name">2</span>
-                        <span class="number">支付理财</span>
-                        <span class="money">1000.0</span>
-                        <span class="profit">2017-04-01</span>
-                    </dd>
-                    <dd>
-                        <span class="name">3</span>
-                        <span class="number">支付理财</span>
-                        <span class="money">1000.0</span>
-                        <span class="profit">2017-03-01</span>
-                    </dd>
-                    <dd>
-                        <span class="name">4</span>
-                        <span class="number">支付理财</span>
-                        <span class="money">1000.0</span>
-                        <span class="profit">2017-03-01</span>
-                    </dd>
-                    <dd>
-                        <span class="name">5</span>
-                        <span class="number">支付理财</span>
-                        <span class="money">1000.0</span>
-                        <span class="profit">2017-03-01</span>
-                    </dd>
+
                 </dl>
                 <div class="more-allinvest">
                     <a th:href="@{/loan/myRecharge}"><span>查看全部充值</span><i></i></a>

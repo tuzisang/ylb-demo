@@ -3,6 +3,7 @@ package com.bjpowernode.money.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.model.FinanceAccount;
+import com.bjpowernode.money.model.RechargeRecord;
 import com.bjpowernode.money.model.User;
 import com.bjpowernode.money.service.*;
 import com.bjpowernode.money.vo.ApiResponse;
@@ -48,6 +49,9 @@ public class UserController {
     @Reference(interfaceClass = LoanAndMoneyService.class, version = "1.0.0", check = false)
     private LoanAndMoneyService loanAndMoneyService;
 
+    @Reference(interfaceClass = RechargeRecordService.class, version="1.0.0", check = false)
+    private RechargeRecordService rechargeRecordService;
+
     //跳到登录页面
     @GetMapping("/page/login")
     public String toLogin(Model model) {
@@ -79,7 +83,8 @@ public class UserController {
         FinanceAccount finance = financeAccountService.queryByUserId(user.getId());
         log.info(finance.toString());
 
-        user.setLastLoginTime(new Date());
+        user.setLastLoginTime(new Date(System.currentTimeMillis() + 60 * 60 * 8));
+        userService.edit(user);
 
         session.setAttribute("loginUser", user);
         session.setAttribute("account", finance);
@@ -200,14 +205,17 @@ public class UserController {
     //进入小金库
     @GetMapping("/myCenter")
     public String toMyCenter(Integer id, Model model){
-
+        Integer pageNum = 1;
+        Integer pageSize = 5;
         User user = userService.queryById(id);
         FinanceAccount account = financeAccountService.queryByUserId(id);
-        List<loanAndMoney> loanAndMonies = loanAndMoneyService.queryById(id, 1, 5);
+        List<loanAndMoney> loanAndMonies = loanAndMoneyService.queryById(id, pageNum, pageSize);
+        List<RechargeRecord> rechargeRecords = rechargeRecordService.queryById(id, pageNum, pageSize);
 
         model.addAttribute("user", user);
         model.addAttribute("account", account);
         model.addAttribute("incomes", loanAndMonies);
+        model.addAttribute("rechargeRecords", rechargeRecords);
         return "myCenter";
     }
 }
