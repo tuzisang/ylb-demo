@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -35,18 +34,21 @@
                     </div>
                     <h3 class="name">
 
-                        <!--<a th:href="@{/loan/page/realName}">请认证姓名</a>-->
-                        张三
+                        <a th:if="${user.name==''}" th:href="@{/loan/page/realName}">请认证姓名</a>
+                        <th:block th:if="${user.name!=''}">
+                            [[${user.name}]]
+                        </th:block>
                     </h3>
                     <h4></h4>
-                    <h4>13725698888</h4>
-                    <h4>最近登录：2017-05-21 15:23:36</h4>
+                    <h4 th:text="${user.phone}"> 13725698888</h4>
+                    <h4>最近登录：[[${#dates.format(user.lastLoginTime, 'yyyy-MM-dd hh:mm:ss')}]]</h4>
+
                 </div>
                 <i class="borderRight"></i>
                 <ul class="credenBalance">
                     <li class="availMoney">
                         <h3>可用余额：</h3>
-                        <span class="moneyIcon"><i>¥ 9000.0 元</i></span>
+                        <span class="moneyIcon" ><i>¥ [[${account.availableMoney}]] 元</i></span>
                         <a class="recharge" th:href="@{/loan/page/toRecharge}">充值</a>
                         <a class="inves" th:href="@{/loan/loan}">投资</a>
                     </li>
@@ -54,7 +56,6 @@
             </div>
         </div>
         <!--账户信息end-->
-
         <!--最新操作数据start-->
         <div class="allInvest clearfix">
             <div class="eachInvest invest-tab">
@@ -157,39 +158,11 @@
                         <span class="number name" style="text-align:center;">收益日期</span>
                         <span class="profit">收益金额</span>
                     </dt>
-                    <dd>
-                        <span class="number" style="text-align:left;">1</span>
-                        <span class="number">新手宝</span>
-                        <span class="number name" style="text-align:center;">2017-05-12</span>
-                        <span class="profit">12.6</span>
-
-                    </dd>
-                    <dd>
-                        <span class="number" style="text-align:left;">2</span>
-                        <span class="number">个人消费贷</span>
-                        <span class="number name" style="text-align:center;">2017-04-11</span>
-                        <span class="profit">100.6</span>
-
-                    </dd>
-                    <dd>
-                        <span class="number" style="text-align:left;">3</span>
-                        <span class="number">季度宝</span>
-                        <span class="number name" style="text-align:center;">2017-03-08</span>
-                        <span class="profit">1000.0</span>
-
-                    </dd>
-                    <dd>
-                        <span class="number" style="text-align:left;">4</span>
-                        <span class="number">季度宝</span>
-                        <span class="number name" style="text-align:center;">2017-03-08</span>
-                        <span class="profit">1000.0</span>
-
-                    </dd>
-                    <dd>
-                        <span class="number" style="text-align:left;">5</span>
-                        <span class="number">季度宝</span>
-                        <span class="number name" style="text-align:center;">2017-03-08</span>
-                        <span class="profit">1000.0</span>
+                    <dd th:each="i : ${incomes}">
+                        <span class="number" style="text-align:left;" th:text="${iStat.index + 1}">1</span>
+                        <span class="number" th:text="${i.loanName}">新手宝</span>
+                        <span class="number name" style="text-align:center;" th:text="${#dates.format(i.date, 'yyyy-MM-dd')}">2017-05-12</span>
+                        <span class="profit" th:text="${i.money}">12.6</span>
 
                     </dd>
                 </dl>

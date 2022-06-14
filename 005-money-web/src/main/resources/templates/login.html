@@ -59,7 +59,7 @@
           </div>
            
           <div class="currently">
-          	平台用户数：<span id="user">--</span>位，累计成交额： <span id="gold">--</span>元
+          	平台用户数：<span id="user" th:text="${count}">--</span> 位，累计成交额：<span id="gold" th:text="${sumBid}">--</span> 元
           </div>
           
           <div class="bn-reg" id="quickRegBtn">
@@ -69,7 +69,7 @@
             <li><i></i>
               <h3>优选投资计划</h3>
               <p>
-              	历史年化收益<span>12.7%</span><br/> 投资周期<span>1-12月</span>灵活选择
+              	历史年化收益<span th:text="${historyAverageRate} + '%'">12.7%</span><br/> 投资周期<span>1-12月</span>灵活选择
               </p>
             </li>
             <li class="jpsb"><i></i>

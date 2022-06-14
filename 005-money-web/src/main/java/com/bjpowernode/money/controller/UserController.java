@@ -1,11 +1,12 @@
 package com.bjpowernode.money.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.model.FinanceAccount;
 import com.bjpowernode.money.model.User;
-import com.bjpowernode.money.service.FinanceAccountService;
-import com.bjpowernode.money.service.UserService;
+import com.bjpowernode.money.service.*;
 import com.bjpowernode.money.vo.ApiResponse;
+import com.bjpowernode.money.vo.loanAndMoney;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author tzsang
@@ -36,12 +39,29 @@ public class UserController {
     @Reference(interfaceClass = FinanceAccountService.class, version = "1.0.0", check = false)
     private FinanceAccountService financeAccountService;
 
-    @GetMapping("/page/login")
-    public String toLogin() {
+    @Reference(interfaceClass = BidInfoService.class, version = "1.0.0", check = false)
+    private BidInfoService bidInfoService;
 
+    @Reference(interfaceClass = LoanInfoService.class, version = "1.0.0", check= false)
+    private LoanInfoService loanInfoService;
+
+    @Reference(interfaceClass = LoanAndMoneyService.class, version = "1.0.0", check = false)
+    private LoanAndMoneyService loanAndMoneyService;
+
+    //跳到登录页面
+    @GetMapping("/page/login")
+    public String toLogin(Model model) {
+        long count = userService.countAll();
+        long sumBid = bidInfoService.sumBid();
+        double rate = loanInfoService.queryHistoryAverageRate();
+
+        model.addAttribute("count", count);
+        model.addAttribute("sumBid", sumBid);
+        model.addAttribute(Constants.HISTORY_AVERAGE_RATE, rate);
         return "login";
     }
 
+    //登录
     @PostMapping("/page/login")
     @ResponseBody
     public ApiResponse login(String captcha, String phone, String loginPassword, HttpSession session) {
@@ -59,8 +79,10 @@ public class UserController {
         FinanceAccount finance = financeAccountService.queryByUserId(user.getId());
         log.info(finance.toString());
 
+        user.setLastLoginTime(new Date());
+
         session.setAttribute("loginUser", user);
-        session.setAttribute("finance", finance);
+        session.setAttribute("account", finance);
         return ApiResponse.success("登录成功!");
     }
 
@@ -137,7 +159,7 @@ public class UserController {
         FinanceAccount finance = financeAccountService.queryByUserId(user.getId());
         //完成登录
         session.setAttribute("loginUser", user);
-        session.setAttribute("finance", finance);
+        session.setAttribute("account", finance);
 
         return ApiResponse.success("注册成功");
     }
@@ -180,7 +202,12 @@ public class UserController {
     public String toMyCenter(Integer id, Model model){
 
         User user = userService.queryById(id);
+        FinanceAccount account = financeAccountService.queryByUserId(id);
+        List<loanAndMoney> loanAndMonies = loanAndMoneyService.queryById(id, 1, 5);
+
         model.addAttribute("user", user);
+        model.addAttribute("account", account);
+        model.addAttribute("incomes", loanAndMonies);
         return "myCenter";
     }
 }

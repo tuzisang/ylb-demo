@@ -56,6 +56,16 @@
     order by bid_money desc
     limit #{count}
   </select>
+
+  <select id="selectByUserId" resultType="com.bjpowernode.money.vo.loanAndMoney">
+    SELECT l.product_name as loanName, i.income_date as date, i.income_money as money
+    FROM `b_income_record` i LEFT JOIN `b_loan_info` l
+     ON l.id = i.loan_id
+    WHERE i.uid = #{uid}
+    ORDER BY i.income_date DESC
+    limit ${(pageNum-1) * pageSize}, #{pageSize}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_income_record
     where id = #{id,jdbcType=INTEGER}

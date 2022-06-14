@@ -19,4 +19,9 @@ class IncomeRecordMapperTest {
     void selectByPrimaryKey() {
         System.out.println(incomeRecordMapper.selectByPrimaryKey(1));
     }
+
+    @Test
+    void selectByUserId() {
+        incomeRecordMapper.selectByUserId(27,1,4).forEach(System.out::println);
+    }
 }
