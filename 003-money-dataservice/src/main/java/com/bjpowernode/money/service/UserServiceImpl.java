@@ -182,4 +182,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKey(user);
     }
 
+    @Override
+    public User queryById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
 }

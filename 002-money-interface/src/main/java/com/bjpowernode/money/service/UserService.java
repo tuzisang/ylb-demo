@@ -29,4 +29,6 @@ public interface UserService {
 
     //更新用户信息
     int edit(User user);
+
+    User queryById(Integer id);
 }

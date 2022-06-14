@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -172,5 +173,14 @@ public class UserController {
 
         session.setAttribute("loginUser", user);
         return ApiResponse.success("身份匹配");
+    }
+
+    //进入小金库
+    @GetMapping("/myCenter")
+    public String toMyCenter(Integer id, Model model){
+
+        User user = userService.queryById(id);
+        model.addAttribute("user", user);
+        return "myCenter";
     }
 }
