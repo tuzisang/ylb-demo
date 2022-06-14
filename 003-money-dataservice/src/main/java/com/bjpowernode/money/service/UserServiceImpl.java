@@ -3,7 +3,9 @@ package com.bjpowernode.money.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.common.HttpClientUtils;
+import com.bjpowernode.money.mapper.FinanceAccountMapper;
 import com.bjpowernode.money.mapper.UserMapper;
+import com.bjpowernode.money.model.FinanceAccount;
 import com.bjpowernode.money.model.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private RedisTemplate redisTemplate;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FinanceAccountMapper financeAccountMapper;
 
     @Override
     public long countAll() {
@@ -105,4 +110,31 @@ public class UserServiceImpl implements UserService {
         int count = userMapper.isExistPhone(phone);
         return count > 0 ? false : true;
     }
+
+    @Override
+    public boolean checkCode(String code, String phone) {
+        String redisCode = (String) redisTemplate.opsForValue().get("sms-code-" + phone);
+        return code.equals(redisCode)? true:false;
+    }
+
+    @Override
+    public User register(String phone, String password) {
+        User user = new User();
+        Date now = new Date();
+        user.setAddTime(now);
+        user.setLastLoginTime(now);
+        user.setPhone(phone);
+        user.setLoginPassword(password);
+        //添加用户
+        userMapper.insert(user);
+
+        FinanceAccount account = new FinanceAccount();
+        account.setUid(user.getId());
+        account.setAvailableMoney(0D);
+        //添加资金账户
+        financeAccountMapper.insert(account);
+
+        return user;
+    }
+
 }

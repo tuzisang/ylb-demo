@@ -86,4 +86,99 @@ $(function() {
 			showSuccess("loginPassword");
 		}
 	});
+
+	//获取短信验证码
+	$("#messageCodeBtn").click(function (){
+		var phone = $("#phone").val().trim();
+		//判断是否在倒计时
+		if ($("#messageCodeBtn").hasClass("on")){
+			return;
+		}
+		//判断手机号是否通过验证
+		$("#phone").blur();
+		var phoneErrText = $("#phoneErr").text();
+		if ("" != phoneErrText){
+			return;
+		}
+		//判断密码是否通过验证
+		$("#loginPassword").blur();
+		var loginPasswordErrText = $("#loginPasswordErr").text();
+		if ("" != loginPasswordErrText){
+			return;
+		}
+
+		//发送短信验证请求
+		$.ajax({
+			url:"../code",
+			type:"post",
+			data:{
+				phone:phone
+			},
+			success:function (result){
+				if (result.code != 200){
+					showError("messageCode", result.message);
+					return;
+				}
+
+				//短信发送成功，60秒内按钮不可再使用
+				$.leftTime(60, function (d){
+					if (d.status){
+						$("#messageCodeBtn").addClass("on");
+						$("#messageCodeBtn").html((d.s == "00" ? "60" : d.s) + "秒后获取");
+					}else {
+						$("#messageCodeBtn").removeClass("on");
+						$("#messageCodeBtn").html("获取验证码");
+					}
+				});
+
+			}
+		})
+	});
+
+	//验证短信验证码
+	$("#messageCode").on("blur",function () {
+		var messageCode = $.trim($("#messageCode").val());
+		if ("" == messageCode) {
+			showError("messageCode", "请输入短信验证码");
+		} else {
+			showSuccess("messageCode");
+		}
+	});
+
+	//注册
+	$("#btnRegist").click(function (){
+
+		//触发三个文本框验证
+		$("#phone").blur();
+		$("loginPassword").blur();
+		$("messageCode").blur();
+		var errTexts = $("div[id$='Err']").text();
+		if (!"" == errTexts){
+			return;
+		}
+
+		var phone = $("#phone").val().trim();
+		var password = $("#loginPassword").val().trim();
+		var code = $("#messageCode").val();
+
+		$.ajax({
+			url:"../register",
+			type:"post",
+			data:{
+				phone:phone,
+				password:$.md5(password),
+				code:code
+			},
+			success:function (result){
+
+				if (result.code != 200){
+					$("#loginPassword").val("");
+					showError("messageCode", result.message);
+					return;
+				}
+
+				window.location.href= "realName";
+			}
+		})
+	});
 });

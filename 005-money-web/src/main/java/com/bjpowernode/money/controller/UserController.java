@@ -8,6 +8,7 @@ import com.bjpowernode.money.service.UserService;
 import com.bjpowernode.money.vo.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -108,5 +109,41 @@ public class UserController {
             return ApiResponse.error("该号码已存在!");
         }
         return ApiResponse.success("可以注册");
+    }
+
+    //验证码是否发送成功
+    @PostMapping("/code")
+    @ResponseBody
+    public ApiResponse getCode(String phone){
+        boolean ok = userService.sendSmsCode(phone);
+
+        if (ok){
+            return ApiResponse.success("验证码发送成功");
+        }else {
+            return ApiResponse.error("短信平台异常");
+        }
+    }
+
+    //注册
+    @PostMapping("/register")
+    @ResponseBody
+    public ApiResponse register(String phone, String password, String code, HttpSession session){
+        if(!userService.checkCode(code, phone)){
+            return ApiResponse.error("验证码错误或已过期");
+        }
+
+        User user = userService.register(phone, password);
+        FinanceAccount finance = financeAccountService.queryByUserId(user.getId());
+        //完成登录
+        session.setAttribute("loginUser", user);
+        session.setAttribute("finance", finance);
+
+        return ApiResponse.success("注册成功");
+    }
+
+    //跳转到实名认证
+    @GetMapping("/page/realName")
+    public String toRealName(){
+        return "realName";
     }
 }

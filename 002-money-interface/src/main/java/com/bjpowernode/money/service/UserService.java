@@ -17,4 +17,10 @@ public interface UserService {
 
     //验证手机是否重复
     boolean checkPhone(String phone);
+
+    //检查验证码是否正确
+    boolean checkCode(String code, String phone);
+
+    //注册用户
+    User register(String phone, String password);
 }
