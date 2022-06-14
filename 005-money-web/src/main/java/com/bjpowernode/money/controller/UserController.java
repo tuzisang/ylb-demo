@@ -146,4 +146,31 @@ public class UserController {
     public String toRealName(){
         return "realName";
     }
+
+    //实名认证
+    @ResponseBody
+    @PostMapping("/verifyRealName")
+    public ApiResponse verifyRealName(HttpSession session, String code, String realName, String idCard){
+
+        //检查图形验证码
+        String loginCode = (String) session.getAttribute("loginCode");
+        System.out.println("loginCode=" + loginCode);
+        if (!loginCode.equalsIgnoreCase(code)){
+            return ApiResponse.error("图形验证码错误!");
+        }
+
+        //检查姓名和身份证
+        if(!userService.checkRealName(realName, idCard)){
+            return ApiResponse.error("身份证和姓名不匹配!");
+        }
+
+        //匹配,更新用户信息
+        User user = (User) session.getAttribute("loginUser");
+        user.setIdCard(idCard);
+        user.setName(realName);
+        userService.edit(user);
+
+        session.setAttribute("loginUser", user);
+        return ApiResponse.success("身份匹配");
+    }
 }

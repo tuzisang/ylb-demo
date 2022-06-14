@@ -1,6 +1,7 @@
 package com.bjpowernode.money.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONObject;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.common.HttpClientUtils;
 import com.bjpowernode.money.mapper.FinanceAccountMapper;
@@ -30,7 +31,8 @@ public class UserServiceImpl implements UserService {
     private String Uid;
     @Value("${Key}")
     private String Key;
-
+    @Value("${appkey}")
+    private String appkey;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
@@ -135,6 +137,49 @@ public class UserServiceImpl implements UserService {
         financeAccountMapper.insert(account);
 
         return user;
+    }
+
+    @Override
+    public boolean checkRealName(String realName, String idCard) {
+        //实名认证网关地址
+        String url = "https://way.jd.com/shuliancloud/id_card_check_ph";
+        //请求参数
+        HashMap<String, String> params = new HashMap<>();
+        params.put("idcard", idCard);
+        params.put("name", realName);
+        params.put("appkey", appkey);
+
+        //发出请求
+        String body = null;
+        try {
+            body = HttpClientUtils.doGet(url, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(body);
+
+        //使用fastjson解析字符串
+        JSONObject json = JSONObject.parseObject(body);
+        if (!"10000".equals(json.getString("code"))){
+            return false;
+        }
+
+        String success = json.getJSONObject("result").getString("success");
+        if ("false".equals(success)){
+            return false;
+        }
+
+        String result = json.getJSONObject("result").getJSONObject("data").getString("result");
+        if (!"0".equals(result)){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int edit(User user) {
+        return userMapper.updateByPrimaryKey(user);
     }
 
 }

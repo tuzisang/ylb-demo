@@ -23,4 +23,10 @@ public interface UserService {
 
     //注册用户
     User register(String phone, String password);
+
+    //身份证实名认证
+    boolean checkRealName(String realName, String idCard);
+
+    //更新用户信息
+    int edit(User user);
 }

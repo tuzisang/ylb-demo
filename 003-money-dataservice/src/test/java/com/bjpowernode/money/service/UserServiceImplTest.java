@@ -21,4 +21,9 @@ class UserServiceImplTest {
 
         System.out.println(ok);
     }
+
+    @Test
+    void checkRealName() {
+        System.out.println(userService.checkRealName("黄健崴", "45040319960820151X"));
+    }
 }
