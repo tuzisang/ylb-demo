@@ -9,6 +9,20 @@
     <result column="bid_time" jdbcType="TIMESTAMP" property="bidTime" />
     <result column="bid_status" jdbcType="INTEGER" property="bidStatus" />
   </resultMap>
+  <resultMap id="LeftJoinMap" type="com.bjpowernode.money.model.BidInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="loan_id" jdbcType="INTEGER" property="loanId" />
+    <result column="bid_id" jdbcType="INTEGER" property="bidId" />
+    <result column="bid_money" jdbcType="DOUBLE" property="bidMoney" />
+    <result column="income_date" jdbcType="DATE" property="incomeDate" />
+    <result column="income_money" jdbcType="DOUBLE" property="incomeMoney" />
+    <result column="income_status" jdbcType="INTEGER" property="incomeStatus" />
+    <association property="user" javaType="com.bjpowernode.money.model.User">
+      <id column="uid" property="id"/>
+      <result column="phone" property="phone"/>
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     id, loan_id, uid, bid_money, bid_time, bid_status
   </sql>
@@ -32,6 +46,21 @@
     limit ${(pageNum-1) * pageSize}, #{pageSize}
   </select>
 
+  <select id="selectRanking" resultType="com.bjpowernode.money.vo.MyRanking">
+    SELECT u.phone , SUM(bid_money) AS bidMoney, bid_time AS bidTime
+    FROM `b_bid_info` b JOIN `u_user` u ON b.uid = u.id
+    GROUP BY u.id
+    ORDER BY bid_money DESC
+    limit #{count}
+  </select>
+
+  <select id="selectDescByProductId" resultType="com.bjpowernode.money.vo.BidInfoOfLoanInfo">
+    SELECT u.name, b.bid_money 'money', bid_time 'date'
+    FROM `b_bid_info` b JOIN `u_user` u ON b.uid = u.id
+    WHERE b.loan_id = #{loanId}
+    ORDER BY bid_time DESC
+    limit #{count}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_bid_info

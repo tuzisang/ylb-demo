@@ -1,6 +1,8 @@
 package com.bjpowernode.money.service;
 
+import com.bjpowernode.money.vo.BidInfoOfLoanInfo;
 import com.bjpowernode.money.vo.MyBidInfo;
+import com.bjpowernode.money.vo.MyRanking;
 
 import java.util.List;
 
@@ -12,4 +14,13 @@ public interface BidInfoService {
     long sumBid();
 
     List<MyBidInfo> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize);
+
+    //查询排行榜
+    List<MyRanking> queryRanking(Integer count);
+    //初始化排行榜
+    void initRanking();
+
+    //根据loanId查询投资详细
+    List<BidInfoOfLoanInfo> queryDescByLoanId(Integer loanId, Integer count);
+
 }

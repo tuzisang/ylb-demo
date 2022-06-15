@@ -3,12 +3,18 @@ package com.bjpowernode.money.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.mapper.BidInfoMapper;
+import com.bjpowernode.money.vo.BidInfoOfLoanInfo;
 import com.bjpowernode.money.vo.MyBidInfo;
+import com.bjpowernode.money.vo.MyRanking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,5 +56,31 @@ public class BidInfoServiceImpl implements BidInfoService {
     @Override
     public List<MyBidInfo> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize) {
         return bidInfoMapper.selectDescByUid(uid, pageNum, pageSize);
+    }
+
+    @Override
+    public List<MyRanking> queryRanking(Integer count) {
+        ArrayList<MyRanking> myRankings = new ArrayList<>();
+        Set<DefaultTypedTuple> set = redisTemplate.opsForZSet().reverseRangeWithScores(Constants.INVEST_TOP, 0, count-1);
+        for(DefaultTypedTuple d:set){
+            MyRanking ranking = new MyRanking(d.getValue().toString(), d.getScore());
+            myRankings.add(ranking);
+        }
+
+        return myRankings;
+    }
+
+    @Override
+    public void initRanking() {
+        List<MyRanking> myRankings = bidInfoMapper.selectRanking(1000000);
+
+        for(MyRanking ranking: myRankings){
+            redisTemplate.opsForZSet().add(Constants.INVEST_TOP, ranking.getPhone(), ranking.getBidMoney());
+        }
+    }
+
+    @Override
+    public List<BidInfoOfLoanInfo> queryDescByLoanId(Integer loanId, Integer count) {
+        return bidInfoMapper.selectDescByProductId(loanId, count);
     }
 }

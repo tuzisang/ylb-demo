@@ -1,7 +1,7 @@
 package com.bjpowernode.money.mapper;
 
 import com.bjpowernode.money.model.IncomeRecord;
-import com.bjpowernode.money.vo.IncomeAndUser;
+import com.bjpowernode.money.vo.MyRanking;
 import com.bjpowernode.money.vo.MyIncomeRecord;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +21,9 @@ public interface IncomeRecordMapper {
 
     int updateByPrimaryKey(IncomeRecord record);
 
-    //查排行榜
-    List<IncomeRecord> selectRanking(Integer count);
+
     //根据产品的id 查询记录
-    List<IncomeAndUser> selectByLoanId(Integer id);
+    List<MyRanking> selectByLoanId(Integer id);
 
     //根据用户id查询记录
     List<MyIncomeRecord> selectByUid(Integer uid, Integer pageNum, Integer pageSize);

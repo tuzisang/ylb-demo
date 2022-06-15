@@ -86,7 +86,7 @@
                     <ul>
                         <li th:each="r, rStat: ${investTop}">
                             <span th:text=" ${rStat.index+1} +'. '+
-                            ${#strings.substring(r.user.phone, 0, 3)} + '******' + ${#strings.substring(r.user.phone, 9, 11)} +
+                            ${#strings.substring(r.phone, 0, 3)} + '******' + ${#strings.substring(r.phone, 9, 11)} +
                             '  '+${r.bidMoney}">
                                 1.&nbsp;137******98&nbsp;&nbsp;9000
                             </span>

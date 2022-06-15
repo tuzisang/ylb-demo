@@ -11,20 +11,17 @@ import java.util.Date;
  * @create 2022-06-11 20:26
  */
 
-public class IncomeAndUser implements Serializable {
+public class MyRanking implements Serializable {
     private String phone;
     private Double bidMoney;
+    private Date bidTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
-    private Date incomeDate;
-
-    public IncomeAndUser() {
+    public MyRanking() {
     }
 
-    public IncomeAndUser(String phone, Double bidMoney, Date incomeDate) {
+    public MyRanking(String phone, Double bidMoney) {
         this.phone = phone;
         this.bidMoney = bidMoney;
-        this.incomeDate = incomeDate;
     }
 
     public String getPhone() {
@@ -46,11 +43,11 @@ public class IncomeAndUser implements Serializable {
         this.bidMoney = bidMoney;
     }
 
-    public Date getIncomeDate() {
-        return incomeDate;
+    public Date getBidTime() {
+        return bidTime;
     }
 
-    public void setIncomeDate(Date incomeDate) {
-        this.incomeDate = incomeDate;
+    public void setBidTime(Date bidTime) {
+        this.bidTime = bidTime;
     }
 }

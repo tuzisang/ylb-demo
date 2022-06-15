@@ -76,21 +76,23 @@
                         <div class="vertical-side">投资列表</div>
                         <dl class="record-list">
                             <dt>
-                                <span class="record-num">序号</span><span class="invest-user">投资人</span><span
-                                    class="invest-money">投资金额(元)</span><span class="invest-time">投资时间</span>
+                                <span class="record-num">序号</span>
+                                <span class="invest-user">投资人</span>
+                                <span class="invest-money">投资金额(元)</span>
+                                <span class="invest-time">投资时间</span>
                             </dt>
 
                             <!-- 如果投资记录为空，显示以下文字 -->
-                            <dd style="text-align:center;" th:if="${incomeAndUser.size() == 0}">该产品暂时还没有人投资，赶快去投资吧~</dd>
+                            <dd style="text-align:center;" th:if="${bidInfoOfLoanInfos.size() == 0}">该产品暂时还没有人投资，赶快去投资吧~</dd>
 
                             <!-- 如果有投资记录，循环遍历显示 -->
-                            <th:block th:if="${incomeAndUser.size() != 0}" th:each="i : ${incomeAndUser}">
+                            <th:block th:if="${bidInfoOfLoanInfos.size() != 0}" th:each="b : ${bidInfoOfLoanInfos}">
                                 <dd>
-                                    <span class="record-num" th:text="${iStat.index+1}">1</span>
-                                    <span class="invest-user" th:text="${i.secretPhone}">137******89</span>
-                                    <span class="invest-money" th:text="${i.bidMoney}">1000.0</span>
+                                    <span class="record-num" th:text="${bStat.index+1}">1</span>
+                                    <span class="invest-user" th:text="${b.name}">137******89</span>
+                                    <span class="invest-money" th:text="${b.money}">1000.0</span>
                                     <span class="invest-time"
-                                          th:text="${#dates.format(i.incomeDate, 'yyyy-MM-dd hh:mm:ss')}">2017-09-12 13:34:22</span>
+                                          th:text="${#dates.format(b.date, 'yyyy-MM-dd hh:mm:ss')}">2017-09-12 13:34:22</span>
                                 </dd>
                             </th:block>
                         </dl>
@@ -113,12 +115,14 @@
                             <dd>资金(元)：
 
                                 <!-- 判断用户是否登录：未登录，显示登录连接 -->
-                                <span style="font-size:18px;color:#ff6161;vertical-align:bottom;" th:if="${session.loginUser==null}">
+                                <span style="font-size:18px;color:#ff6161;vertical-align:bottom;"
+                                      th:if="${session.loginUser==null}">
                                     <a th:href="@{/loan/page/login}">请登录</a>
                                 </span>
 
                                 <!-- 判断用户是否登录：已登录，显示可用余额 -->
-                                <span th:if="${session.loginUser!=null}" style="font-size:18px;color:#ff6161;vertical-align:bottom;">[[${session.account.availableMoney}]] 元</span>
+                                <span th:if="${session.loginUser!=null}"
+                                      style="font-size:18px;color:#ff6161;vertical-align:bottom;">[[${session.account.availableMoney}]] 元</span>
 
                             </dd>
                         </dl>

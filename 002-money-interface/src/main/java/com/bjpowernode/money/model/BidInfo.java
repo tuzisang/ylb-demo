@@ -16,6 +16,8 @@ public class BidInfo implements Serializable {
 
     private Integer bidStatus;
 
+    private User user;
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class BidInfo implements Serializable {
 
     public void setBidStatus(Integer bidStatus) {
         this.bidStatus = bidStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

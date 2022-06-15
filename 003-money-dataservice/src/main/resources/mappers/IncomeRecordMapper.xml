@@ -11,21 +11,8 @@
     <result column="income_money" jdbcType="DOUBLE" property="incomeMoney" />
     <result column="income_status" jdbcType="INTEGER" property="incomeStatus" />
   </resultMap>
-  <resultMap id="LeftJoinMap" type="com.bjpowernode.money.model.IncomeRecord">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="loan_id" jdbcType="INTEGER" property="loanId" />
-    <result column="bid_id" jdbcType="INTEGER" property="bidId" />
-    <result column="bid_money" jdbcType="DOUBLE" property="bidMoney" />
-    <result column="income_date" jdbcType="DATE" property="incomeDate" />
-    <result column="income_money" jdbcType="DOUBLE" property="incomeMoney" />
-    <result column="income_status" jdbcType="INTEGER" property="incomeStatus" />
-    <association property="user" javaType="com.bjpowernode.money.model.User">
-      <id column="uid" property="id"/>
-      <result column="phone" property="phone"/>
-    </association>
-  </resultMap>
-  <resultMap id="IncomeAndUserMap" type="com.bjpowernode.money.vo.IncomeAndUser">
+
+  <resultMap id="IncomeAndUserMap" type="com.bjpowernode.money.vo.MyRanking">
     <id column="phone" javaType="String" property="phone"/>
     <result column="bid_money" javaType="Double" property="bidMoney"/>
     <result column="income_date" javaType="Date" property="incomeDate"/>
@@ -49,13 +36,7 @@
   </select>
 
 
-  <select id="selectRanking" resultMap="LeftJoinMap">
-    select u.phone , sum(bid_money) as bid_money
-    from `b_income_record` b left join `u_user`u on b.uid = u.id
-    group by u.id
-    order by bid_money desc
-    limit #{count}
-  </select>
+
 
   <select id="selectByUid" resultType="com.bjpowernode.money.vo.MyIncomeRecord">
     #收益记录查询
