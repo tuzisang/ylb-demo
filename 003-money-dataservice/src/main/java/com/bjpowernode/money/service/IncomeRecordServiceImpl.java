@@ -5,6 +5,7 @@ import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.mapper.IncomeRecordMapper;
 import com.bjpowernode.money.model.IncomeRecord;
 import com.bjpowernode.money.vo.IncomeAndUser;
+import com.bjpowernode.money.vo.MyIncomeRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -54,5 +55,10 @@ public class IncomeRecordServiceImpl implements IncomeRecordService {
     @Override
     public List<IncomeAndUser> queryByLoanId(Integer id) {
         return incomeRecordMapper.selectByLoanId(id);
+    }
+
+    @Override
+    public List<MyIncomeRecord> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize) {
+        return incomeRecordMapper.selectByUid(uid, pageNum, pageSize);
     }
 }

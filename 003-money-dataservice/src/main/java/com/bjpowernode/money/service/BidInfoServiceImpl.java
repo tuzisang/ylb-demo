@@ -3,10 +3,12 @@ package com.bjpowernode.money.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.mapper.BidInfoMapper;
+import com.bjpowernode.money.vo.MyBidInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,5 +45,10 @@ public class BidInfoServiceImpl implements BidInfoService {
             sumBid = (Integer) redisTemplate.opsForValue().get(Constants.ALL_BID_MONEY);
         }
         return sumBid;
+    }
+
+    @Override
+    public List<MyBidInfo> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize) {
+        return bidInfoMapper.selectDescByUid(uid, pageNum, pageSize);
     }
 }

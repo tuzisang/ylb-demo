@@ -68,36 +68,13 @@
                             <span class="money">投资金额</span>
                             <span class="profit">投资时间</span>
                         </dt>
-                        <dd>
-                            <span class="name">1</span>
-                            <span class="number">个人消费贷</span>
-                            <span class="money">5000.0</span>
-                            <span class="profit">2017-06-12</span>
+                        <dd th:each="m :${myBidInfos}">
+                            <span class="name" th:text="${mStat.count}">1</span>
+                            <span class="number" th:text="${m.name}">个人消费贷</span>
+                            <span class="money" th:text="${m.money}">5000.0</span>
+                            <span class="profit" th:text="${#dates.format(m.date, 'yyyy-MM-dd')}">2017-06-12</span>
                         </dd>
-                        <dd>
-                            <span class="name">2</span>
-                            <span class="number">个人消费贷</span>
-                            <span class="money">5500.0</span>
-                            <span class="profit">2017-05-02</span>
-                        </dd>
-                        <dd>
-                            <span class="name">3</span>
-                            <span class="number">个人消费贷</span>
-                            <span class="money">3000.0</span>
-                            <span class="profit">2017-01-01</span>
-                        </dd>
-                        <dd>
-                            <span class="name">4</span>
-                            <span class="number">个人消费贷</span>
-                            <span class="money">3000.0</span>
-                            <span class="profit">2017-01-01</span>
-                        </dd>
-                        <dd>
-                            <span class="name">5</span>
-                            <span class="number">个人消费贷</span>
-                            <span class="money">3000.0</span>
-                            <span class="profit">2017-01-01</span>
-                        </dd>
+
                     </dl>
                     <div class="more-allinvest">
                         <a th:href="@{/loan/myInvest}"><span>查看全部投资</span><i></i></a>
@@ -135,11 +112,11 @@
                         <span class="number name" style="text-align:center;">收益日期</span>
                         <span class="profit">收益金额</span>
                     </dt>
-                    <dd th:each="i : ${incomes}">
-                        <span class="number" style="text-align:left;" th:text="${iStat.index + 1}">1</span>
-                        <span class="number" th:text="${i.loanName}">新手宝</span>
-                        <span class="number name" style="text-align:center;" th:text="${#dates.format(i.date, 'yyyy-MM-dd')}">2017-05-12</span>
-                        <span class="profit" th:text="${i.money}">12.6</span>
+                    <dd th:each="m : ${myIncomeRecords}">
+                        <span class="number" style="text-align:left;" th:text="${mStat.index + 1}">1</span>
+                        <span class="number" th:text="${m.name}">新手宝</span>
+                        <span class="number name" style="text-align:center;" th:text="${#dates.format(m.date, 'yyyy-MM-dd')}">2017-05-12</span>
+                        <span class="profit" th:text="${m.incomeMoney}">12.6</span>
 
                     </dd>
                 </dl>

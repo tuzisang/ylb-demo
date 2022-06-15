@@ -118,7 +118,7 @@
                                 </span>
 
                                 <!-- 判断用户是否登录：已登录，显示可用余额 -->
-                                <span th:if="${session.loginUser!=null}" style="font-size:18px;color:#ff6161;vertical-align:bottom;">[[${session.finance.availableMoney}]] 元</span>
+                                <span th:if="${session.loginUser!=null}" style="font-size:18px;color:#ff6161;vertical-align:bottom;">[[${session.account.availableMoney}]] 元</span>
 
                             </dd>
                         </dl>

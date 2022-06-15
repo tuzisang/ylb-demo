@@ -7,16 +7,15 @@ import com.bjpowernode.money.model.RechargeRecord;
 import com.bjpowernode.money.model.User;
 import com.bjpowernode.money.service.*;
 import com.bjpowernode.money.vo.ApiResponse;
-import com.bjpowernode.money.vo.loanAndMoney;
+import com.bjpowernode.money.vo.MyBidInfo;
+import com.bjpowernode.money.vo.MyIncomeRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
@@ -46,11 +45,11 @@ public class UserController {
     @Reference(interfaceClass = LoanInfoService.class, version = "1.0.0", check= false)
     private LoanInfoService loanInfoService;
 
-    @Reference(interfaceClass = LoanAndMoneyService.class, version = "1.0.0", check = false)
-    private LoanAndMoneyService loanAndMoneyService;
-
     @Reference(interfaceClass = RechargeRecordService.class, version="1.0.0", check = false)
     private RechargeRecordService rechargeRecordService;
+
+    @Reference(interfaceClass = IncomeRecordService.class, version = "1.0.0", check = false)
+    private IncomeRecordService incomeRecordService;
 
     //跳到登录页面
     @GetMapping("/page/login")
@@ -209,13 +208,32 @@ public class UserController {
         Integer pageSize = 5;
         User user = userService.queryById(id);
         FinanceAccount account = financeAccountService.queryByUserId(id);
-        List<loanAndMoney> loanAndMonies = loanAndMoneyService.queryById(id, pageNum, pageSize);
+        List<MyIncomeRecord> myIncomeRecords = incomeRecordService.queryDescByUid(id, pageNum, pageSize);
+
         List<RechargeRecord> rechargeRecords = rechargeRecordService.queryById(id, pageNum, pageSize);
+        List<MyBidInfo> myBidInfos = bidInfoService.queryDescByUid(id, pageNum, pageSize);
+
 
         model.addAttribute("user", user);
         model.addAttribute("account", account);
-        model.addAttribute("incomes", loanAndMonies);
+        model.addAttribute("myIncomeRecords", myIncomeRecords);
         model.addAttribute("rechargeRecords", rechargeRecords);
+        model.addAttribute("myBidInfos", myBidInfos);
+
         return "myCenter";
     }
+
+
+
+    //跳到我的账户
+    @GetMapping("/myAccount")
+    public String toMyAccount(HttpSession session, Model model){
+        User user = (User) session.getAttribute("loginUser");
+        FinanceAccount account = financeAccountService.queryByUserId(user.getId());
+        model.addAttribute("user", user);
+        model.addAttribute("account", account);
+        return "myAccount";
+    }
+
+
 }

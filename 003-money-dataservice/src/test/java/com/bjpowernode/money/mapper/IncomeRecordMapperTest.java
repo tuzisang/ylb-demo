@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author tzsang
  * @create 2022-06-11 19:28
@@ -22,6 +20,6 @@ class IncomeRecordMapperTest {
 
     @Test
     void selectByUserId() {
-        incomeRecordMapper.selectByUserId(27,1,4).forEach(System.out::println);
+        incomeRecordMapper.selectByUid(27,1,4).forEach(System.out::println);
     }
 }

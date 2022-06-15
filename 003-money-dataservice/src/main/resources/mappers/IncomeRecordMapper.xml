@@ -57,10 +57,16 @@
     limit #{count}
   </select>
 
-  <select id="selectByUserId" resultType="com.bjpowernode.money.vo.loanAndMoney">
-    SELECT l.product_name as loanName, i.income_date as date, i.income_money as money
-    FROM `b_income_record` i LEFT JOIN `b_loan_info` l
-     ON l.id = i.loan_id
+  <select id="selectByUid" resultType="com.bjpowernode.money.vo.MyIncomeRecord">
+    #收益记录查询
+    SELECT
+      i.income_date 'date',
+      i.income_money 'incomeMoney',
+      l.product_name 'name',
+      i.bid_money 'bidMoney' ,
+      CASE i.income_status WHEN 1 THEN '收益已返'
+                           ELSE '收益未返' END 'status'
+    FROM `b_income_record` i JOIN `b_loan_info` l ON i.loan_id = l.id
     WHERE i.uid = #{uid}
     ORDER BY i.income_date DESC
     limit ${(pageNum-1) * pageSize}, #{pageSize}

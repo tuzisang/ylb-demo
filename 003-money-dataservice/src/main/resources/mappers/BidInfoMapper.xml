@@ -21,6 +21,18 @@
   <select id="sumBid" resultType="java.lang.Long">
     select sum(bid_money) from `b_bid_info`
   </select>
+
+  <select id="selectDescByUid" resultType="com.bjpowernode.money.vo.MyBidInfo">
+    SELECT b.bid_time AS `date`, l.product_name AS 'name', CASE b.bid_status WHEN 1 THEN '投资成功'
+                                                                             ELSE '投资失败' END AS `status`,
+                                                                                                            b.bid_money AS 'money'
+    FROM `b_bid_info` b JOIN `b_loan_info` l ON b.loan_id = l.id
+    WHERE b.uid = #{uid}
+    ORDER BY b.bid_time DESC
+    limit ${(pageNum-1) * pageSize}, #{pageSize}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_bid_info
     where id = #{id,jdbcType=INTEGER}

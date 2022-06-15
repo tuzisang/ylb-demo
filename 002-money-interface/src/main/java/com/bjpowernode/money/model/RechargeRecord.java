@@ -5,17 +5,11 @@ import java.util.Date;
 
 public class RechargeRecord implements Serializable {
     private Integer id;
-
     private Integer uid;
-
     private String rechargeNo;
-
     private String rechargeStatus;
-
     private Double rechargeMoney;
-
     private Date rechargeTime;
-
     private String rechargeDesc;
 
     public Integer getId() {
@@ -44,6 +38,16 @@ public class RechargeRecord implements Serializable {
 
     public String getRechargeStatus() {
         return rechargeStatus;
+    }
+
+    public String getCNStatus() {
+        if ("0".equals(this.rechargeStatus)){
+            return "充值中";
+        }else if("1".equals(this.rechargeStatus)){
+            return "充值成功";
+        }else {
+            return "充值失败";
+        }
     }
 
     public void setRechargeStatus(String rechargeStatus) {

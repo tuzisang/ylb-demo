@@ -2,8 +2,7 @@ package com.bjpowernode.money.mapper;
 
 import com.bjpowernode.money.model.IncomeRecord;
 import com.bjpowernode.money.vo.IncomeAndUser;
-import com.bjpowernode.money.vo.loanAndMoney;
-import org.apache.ibatis.annotations.Mapper;
+import com.bjpowernode.money.vo.MyIncomeRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,5 +27,5 @@ public interface IncomeRecordMapper {
     List<IncomeAndUser> selectByLoanId(Integer id);
 
     //根据用户id查询记录
-    List<loanAndMoney> selectByUserId(Integer uid, Integer pageNum, Integer pageSize);
+    List<MyIncomeRecord> selectByUid(Integer uid, Integer pageNum, Integer pageSize);
 }

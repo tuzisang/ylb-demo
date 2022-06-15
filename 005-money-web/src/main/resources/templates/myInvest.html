@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -56,7 +55,7 @@
     <div class="homeWap">
         <div class="fund-guanli clearfix">
             <div class="left-nav">
-	            <div th:include="commons/leftNav :: html"></div>
+                <div th:include="commons/leftNav :: html"></div>
             </div>
             <div class="right-body">
                 <div class="right-wap">
@@ -68,71 +67,26 @@
                                 <span class="deal-type" style="width:120px">投资状态</span>
                                 <span class="deal-money">投资金额(元)</span>
                             </dt>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
+                            <dd th:each="m:${myBidInfos}">
+                                <div class="deal-time" th:text="${#dates.format(m.date, 'yyyy-MM-dd HH:mm:ss')}">2016-01-03 12:23:32</div>
+                                <div class="deal-name" th:text="${m.name}">新手宝</div>
+                                <div class="deal-type" style="width:120px" th:text="${m.status}">
                                     <!-- 判断投资状态是否为1，即成功 -->
                                     投资成功
                                 </div>
-                                <div class="deal-money">100.0</div>
+                                <div class="deal-money" th:text="${m.money}">100.0</div>
                             </dd>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
-                                    <!-- 判断投资状态是否为1，即成功 -->
-                                    投资成功
-                                </div>
-                                <div class="deal-money">100.0</div>
-                            </dd>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
-                                    <!-- 判断投资状态是否为1，即成功 -->
-                                    投资成功
-                                </div>
-                                <div class="deal-money">100.0</div>
-                            </dd>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
-                                    <!-- 判断投资状态是否为1，即成功 -->
-                                    投资成功
-                                </div>
-                                <div class="deal-money">100.0</div>
-                            </dd>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
-                                    <!-- 判断投资状态是否为1，即成功 -->
-                                    投资成功
-                                </div>
-                                <div class="deal-money">100.0</div>
-                            </dd>
-                            <dd>
-                                <div class="deal-time">2016-01-03 12:23:32</div>
-                                <div class="deal-name">新手宝</div>
-                                <div class="deal-type" style="width:120px">
-                                    <!-- 判断投资状态是否为1，即成功 -->
-                                    投资成功
-                                </div>
-                                <div class="deal-money">100.0</div>
-                            </dd>
-                            &nbsp;&nbsp;
+
 
                             <div class="touzi_fenye" style="width:100%;text-align:center;">
-                                共20条3页　当前为第 1 页
-                                <a id="linkHomePage" th:href="@{/loan/myInvest}">首页</a>
+                                共 [[${total}]] 条 [[${pages}]] 页　当前为第 [[${pageNum}]] 页　
+                                <a id="linkHomePage" th:href="@{/loan/myInvest?pageNum=1}">首页</a>
                                 <a id="linkPreviousPage"
-                                   th:href="@{/loan/myInvest}">上一页</a>
+                                   th:href="|@{/loan/myInvest?pageNum=}${pageNum-1}|">上一页</a>
                                 <a id="linkNextPage"
-                                   th:href="@{/loan/myInvest}">下一页 </a>
+                                   th:href="|@{/loan/myInvest?pageNum=}${pageNum+1}|">下一页 </a>
                                 <a id="linkLastPage"
-                                   th:href="@{/loan/myInvest}">尾页</a>
+                                   th:href="|@{/loan/myInvest?pageNum=}${pages}|">尾页</a>
                             </div>
 
                         </dl>

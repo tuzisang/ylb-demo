@@ -2,6 +2,7 @@ package com.bjpowernode.money.service;
 
 import com.bjpowernode.money.model.IncomeRecord;
 import com.bjpowernode.money.vo.IncomeAndUser;
+import com.bjpowernode.money.vo.MyIncomeRecord;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface IncomeRecordService {
     IncomeRecord queryById(Integer id);
 
     List<IncomeAndUser> queryByLoanId(Integer id);
+
+    //根据uid查询投资详细
+    List<MyIncomeRecord> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize);
 }

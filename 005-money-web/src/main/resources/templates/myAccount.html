@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -56,18 +55,18 @@
                                 </div>
                                 <h3 class="name">
 
-                                    <!--<a th:href="@{/loan/page/realName}">请认证姓名</a>-->
-                                    张三
+                                    <a th:href="@{/loan/page/realName}" th:if="${user.name==''}">请认证姓名</a>
+                                    <th:block th:if="${user.name!=''}" th:text="${user.name}"></th:block>
                                 </h3>
                                 <h4></h4>
-                                <h4>13725698888</h4>
-                                <h4>最近登录：2017-05-21 15:23:36</h4>
+                                <h4 th:text="${user.phone}">13725698888</h4>
+                                <h4 >最近登录：[[${#dates.format(user.lastLoginTime, 'yyyy-HH-dd HH:mm:ss')}]]</h4>
                             </div>
                             <i class="borderRight"></i>
                             <ul class="credenBalance">
                                 <li class="availMoney">
                                     <h3>可用余额：</h3>
-                                    <span class="moneyIcon"><i>¥ 9000.0 元</i></span>
+                                    <span class="moneyIcon" th:text="|¥ ${account.availableMoney} 元|"></span>
                                     <a class="recharge" th:href="@{/loan/page/toRecharge}">充值</a>
                                     <a class="inves" th:href="@{/loan/loan}">投资</a>
                                 </li>
