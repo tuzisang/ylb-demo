@@ -16,6 +16,6 @@ public interface FinanceAccountMapper {
     int updateByPrimaryKeySelective(FinanceAccount record);
 
     int updateByPrimaryKey(FinanceAccount record);
-
+    //查余额
     FinanceAccount selectByUserId(Integer id);
 }

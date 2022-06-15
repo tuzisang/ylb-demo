@@ -23,4 +23,11 @@ public class BidInfoController {
         bidInfoService.queryRanking(10);
         return "排行榜初始化";
     }
+
+    @GetMapping("/loan/updateRanking")
+    @ResponseBody
+    public String updateRanking(){
+        bidInfoService.updateRanking("15807741053", 500000.00);
+        return "排行榜更新成功";
+    }
 }

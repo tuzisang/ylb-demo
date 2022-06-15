@@ -83,4 +83,9 @@ public class BidInfoServiceImpl implements BidInfoService {
     public List<BidInfoOfLoanInfo> queryDescByLoanId(Integer loanId, Integer count) {
         return bidInfoMapper.selectDescByProductId(loanId, count);
     }
+
+    @Override
+    public void updateRanking(String phone, Double bidMoney) {
+        redisTemplate.opsForZSet().incrementScore(Constants.INVEST_TOP, phone, bidMoney);
+    }
 }

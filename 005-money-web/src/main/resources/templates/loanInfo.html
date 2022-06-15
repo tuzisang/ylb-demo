@@ -9,7 +9,30 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/share.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
-
+    <script>
+        $(function (){
+            $("#investNow").click(function (){
+                $.ajax({
+                    url:"/money/loan/addRecharge",
+                    type:"post",
+                    data:{
+                        id:$("#id").val(),
+                        money:$("#bidMoney").val()
+                    },
+                    success:function (result){
+                        if (result.code==200){
+                            window.location.href = "/money/loan/loanInfo?id=" + $("#id").val();
+                        }else {
+                            alert(result.message);
+                        }
+                    },
+                    error:function (){
+                        alert("服务器异常");
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -135,8 +158,9 @@
                                        placeholder="请输入投资金额，应为100元的整倍数" maxlength="9"/>
                                 <div class="max-invest-money"></div>
                             </div>
+                            <input type="hidden" id="id" th:value="${param.id}">
                             <div class="invest-btn">
-                                <a id="investNow" href="javascript:void(0)" class="btn-1" onclick="invest();">立即投资</a>
+                                <a id="investNow" href="javascript:void(0)" class="btn-1">立即投资</a>
                             </div>
                             <input type="hidden" id="loanId" name="loanId" value="${loanInfo.id}"/>
 

@@ -2,18 +2,22 @@ package com.bjpowernode.money.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.bjpowernode.money.common.Constants;
+import com.bjpowernode.money.model.FinanceAccount;
 import com.bjpowernode.money.model.IncomeRecord;
 import com.bjpowernode.money.model.LoanInfo;
-import com.bjpowernode.money.service.BidInfoService;
-import com.bjpowernode.money.service.IncomeRecordService;
-import com.bjpowernode.money.service.LoanInfoService;
+import com.bjpowernode.money.model.User;
+import com.bjpowernode.money.service.*;
+import com.bjpowernode.money.vo.ApiResponse;
 import com.bjpowernode.money.vo.BidInfoOfLoanInfo;
 import com.bjpowernode.money.vo.MyRanking;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -32,6 +36,12 @@ public class LoanInfoController {
 
     @Reference(interfaceClass = BidInfoService.class, version = "1.0.0",check = false)
     private BidInfoService bidInfoService;
+
+    @Reference(interfaceClass = RechargeRecordService.class, version = "1.0.0", check = false)
+    private RechargeRecordService rechargeRecordService;
+
+    @Reference(interfaceClass = FinanceAccountService.class, version = "1.0.0",check = false)
+    private FinanceAccountService financeAccountService;
 
     @GetMapping("/loan")
     public String loan(Integer pageNum, Model model, Integer ptype){
@@ -63,5 +73,23 @@ public class LoanInfoController {
         model.addAttribute("bidInfoOfLoanInfos", bidInfoOfLoanInfos);
 
         return "loanInfo";
+    }
+
+    @PostMapping("/addRecharge")
+    @ResponseBody
+    public ApiResponse addRecharge(HttpSession session, Integer id, Double money){
+        User user = (User) session.getAttribute("loginUser");
+        boolean b = rechargeRecordService.addRecharge(user.getId(), id, money);
+        System.out.println("b="+b);
+        if (b==false){
+            System.out.println("余额不足");
+            return ApiResponse.error("余额不足，请充值！");
+        }
+
+        //更新session
+        FinanceAccount account = financeAccountService.queryByUserId(user.getId());
+        session.setAttribute("account", account);
+
+        return ApiResponse.success("充值成功");
     }
 }

@@ -11,4 +11,7 @@ import java.util.List;
 public interface RechargeRecordService {
 
     List<RechargeRecord> queryById(Integer id, Integer pageNum, Integer pageSize);
+
+    //投资
+    boolean addRecharge(Integer uid, Integer loanId, Double money);
 }

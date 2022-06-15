@@ -23,4 +23,7 @@ public interface BidInfoService {
     //根据loanId查询投资详细
     List<BidInfoOfLoanInfo> queryDescByLoanId(Integer loanId, Integer count);
 
+    //投资成功后，更新排行榜
+    void updateRanking(String phone, Double bidMoney);
+
 }
