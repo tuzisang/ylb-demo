@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
@@ -93,14 +92,15 @@
                 <div class="leftTitle"><span class="on">第三方支付平台</span></div>
 
                 <!--未认证start-->
-                    <!--<div class="unrecognized" style="display:block;" id="unrecognized1">
+                    <div class="unrecognized" style="display:block;" id="unrecognized1" th:if="${session.loginUser.name==null}">
                         <h3>您尚未通过实名认证，通过实名认证后可进行充值操作</h3>
                         <a class="input_btn" th:href="@{/loan/page/realName}">认 证</a>
-                    </div>-->
+                    </div>
                 <!--未认证end-->
 
                 <!-- 充值start -->
-                    <form id="rechargeForm" th:action="@{/loan/toRecharge}" method="post" target="_blank">
+                    <form id="rechargeForm" th:action="@{/loan/page/toRecharge}" method="post" target="_blank"
+                          th:if="${session.loginUser.name!=null}">
                         <div class="payInvest" style="display:block;">
                             <div class="investMain">
                                 <h3>请选择支付平台</h3>

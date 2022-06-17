@@ -23,7 +23,8 @@ public class IncomeTask {
     @Reference(interfaceClass = IncomeRecordService.class, version = "1.0.0", check = false)
     private IncomeRecordService incomeRecordService;
 
-    @Scheduled(fixedRate = 1000 * 10)
+    //每天凌晨1点执行
+    @Scheduled(cron = "0 0 1 * * ? *")
     public void createIncome() {
         log.info("生成收益计划");
         incomeRecordService.generateIncomeRecords();
