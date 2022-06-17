@@ -18,4 +18,10 @@ public interface IncomeRecordService {
 
     //根据uid查询投资详细
     List<MyIncomeRecord> queryDescByUid(Integer uid, Integer pageNum, Integer pageSize);
+
+    //生成收益
+    void generateIncomeRecords();
+
+    //返还收益
+    void returnIncome();
 }

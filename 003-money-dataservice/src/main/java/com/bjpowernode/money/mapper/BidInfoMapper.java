@@ -33,4 +33,7 @@ public interface BidInfoMapper {
 
     //排行榜
     List<MyRanking> selectRanking(Integer count);
+
+
+    List<BidInfo> selectByLoanId(Integer loanId);
 }

@@ -54,6 +54,12 @@
     limit #{count}
   </select>
 
+
+  <select id="selectByLoanId" resultMap="BaseResultMap">
+    SELECT * FROM `b_bid_info`
+    where loan_id = #{loanId}
+  </select>
+
   <select id="selectDescByProductId" resultType="com.bjpowernode.money.vo.BidInfoOfLoanInfo">
     SELECT u.name, b.bid_money 'money', bid_time 'date'
     FROM `b_bid_info` b JOIN `u_user` u ON b.uid = u.id

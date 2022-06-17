@@ -29,4 +29,7 @@ public interface LoanInfoMapper {
 
     //按类型查数量
     long selectCount(Integer productType);
+
+    //按状态查询产品
+    List<LoanInfo> selectByProductStatus(Integer productStatus);
 }

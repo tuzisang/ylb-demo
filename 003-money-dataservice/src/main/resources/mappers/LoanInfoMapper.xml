@@ -51,6 +51,12 @@
             </if>
         </where>
     </select>
+
+    <select id="selectByProductStatus" resultMap="BaseResultMap">
+        select * from `b_loan_info`
+        where product_status = ${productStatus}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from b_loan_info

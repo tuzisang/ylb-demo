@@ -21,4 +21,9 @@ class LoanInfoMapperTest {
         LoanInfo loanInfo = loanInfoMapper.selectByPrimaryKey(1);
         System.out.println(loanInfo);
     }
+
+    @Test
+    void selectByProductStatus() {
+        loanInfoMapper.selectByProductStatus(1).forEach(System.out::println);
+    }
 }

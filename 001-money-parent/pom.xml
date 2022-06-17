@@ -6,6 +6,7 @@
         <module>../003-money-dataservice</module>
         <module>../004-money-common</module>
         <module>../005-money-web</module>
+        <module>../006-money-task</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

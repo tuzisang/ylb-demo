@@ -68,6 +68,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateAvailableMoneyByUid">
+    UPDATE `u_finance_account`
+    SET available_money = available_money + #{incomeMoney}
+    WHERE uid = #{uid}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.bjpowernode.money.model.FinanceAccount">
     update u_finance_account
     set uid = #{uid,jdbcType=INTEGER},

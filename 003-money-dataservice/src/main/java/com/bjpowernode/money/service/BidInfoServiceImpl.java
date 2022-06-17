@@ -3,6 +3,7 @@ package com.bjpowernode.money.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.mapper.BidInfoMapper;
+import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.vo.BidInfoOfLoanInfo;
 import com.bjpowernode.money.vo.MyBidInfo;
 import com.bjpowernode.money.vo.MyRanking;
@@ -88,4 +89,5 @@ public class BidInfoServiceImpl implements BidInfoService {
     public void updateRanking(String phone, Double bidMoney) {
         redisTemplate.opsForZSet().incrementScore(Constants.INVEST_TOP, phone, bidMoney);
     }
+
 }

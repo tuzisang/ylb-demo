@@ -18,4 +18,6 @@ public interface FinanceAccountMapper {
     int updateByPrimaryKey(FinanceAccount record);
     //查余额
     FinanceAccount selectByUserId(Integer id);
+
+    void updateAvailableMoneyByUid(Double incomeMoney, Integer uid);
 }

@@ -1,5 +1,6 @@
 package com.bjpowernode.money.service;
 
+import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.vo.BidInfoOfLoanInfo;
 import com.bjpowernode.money.vo.MyBidInfo;
 import com.bjpowernode.money.vo.MyRanking;
