@@ -20,4 +20,10 @@ public class FinanceAccountServiceImpl implements FinanceAccountService {
     public FinanceAccount queryByUserId(Integer id) {
         return financeAccountMapper.selectByUserId(id);
     }
+
+    @Override
+    public void addAvailableMoneyByUid(Double money, Integer uid) {
+        financeAccountMapper.updateAvailableMoneyByUid(money, uid);
+    }
+
 }

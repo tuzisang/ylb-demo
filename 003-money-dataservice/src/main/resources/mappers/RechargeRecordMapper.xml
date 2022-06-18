@@ -28,6 +28,18 @@
     ORDER BY recharge_time DESC
     limit ${(pageNum - 1) * pageSize}, #{pageSize}
   </select>
+  <select id="selectByStatus" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM `b_recharge_record`
+    where `recharge_status` = #{status}
+  </select>
+
+  <select id="selectByNo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    FROM `b_recharge_record`
+    where `recharge_no` = #{no}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_recharge_record

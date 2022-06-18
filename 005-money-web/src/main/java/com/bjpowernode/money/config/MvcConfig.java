@@ -33,8 +33,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 "/loan/code"
         };
         //注册拦截器
-//        registry.addInterceptor(securityInterceptor)
-//                .addPathPatterns(addPathPatterns)
-//                .excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(securityInterceptor)
+                .addPathPatterns(addPathPatterns)
+                .excludePathPatterns(excludePathPatterns);
     }
 }

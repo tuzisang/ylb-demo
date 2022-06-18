@@ -22,4 +22,9 @@ public interface RechargeRecordMapper {
 
     //根据uid查询充值记录
     List<RechargeRecord> selectByUid(Integer uid, Integer pageNum, Integer pageSize);
+
+    //按照订单号查询
+    RechargeRecord selectByNo(String no);
+
+    List<RechargeRecord> selectByStatus(String status);
 }

@@ -20,4 +20,5 @@ public interface FinanceAccountMapper {
     FinanceAccount selectByUserId(Integer id);
 
     void updateAvailableMoneyByUid(Double incomeMoney, Integer uid);
+
 }

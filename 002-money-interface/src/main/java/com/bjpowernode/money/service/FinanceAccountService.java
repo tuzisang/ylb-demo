@@ -9,4 +9,7 @@ import com.bjpowernode.money.model.FinanceAccount;
 public interface FinanceAccountService {
 
     FinanceAccount queryByUserId(Integer id);
+
+    void addAvailableMoneyByUid(Double money, Integer uid);
+
 }

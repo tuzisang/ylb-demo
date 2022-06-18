@@ -3,7 +3,6 @@ package com.bjpowernode.money.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.bjpowernode.money.common.Constants;
 import com.bjpowernode.money.model.FinanceAccount;
-import com.bjpowernode.money.model.IncomeRecord;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.model.User;
 import com.bjpowernode.money.service.*;
@@ -79,7 +78,7 @@ public class LoanInfoController {
     @ResponseBody
     public ApiResponse addRecharge(HttpSession session, Integer id, Double money){
         User user = (User) session.getAttribute("loginUser");
-        boolean b = rechargeRecordService.addRecharge(user.getId(), id, money);
+        boolean b = rechargeRecordService.addBidInfo(user.getId(), id, money);
         System.out.println("b="+b);
         if (b==false){
             System.out.println("余额不足");

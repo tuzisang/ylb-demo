@@ -5,3 +5,4 @@ spring:
     name: 007-money-alipay
   dubbo:
     registry: zookeeper://localhost:2181
+
