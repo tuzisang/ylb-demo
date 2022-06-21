@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/loan")
-public class RecordController {
+public class AllRecordController {
     @Reference(interfaceClass = IncomeRecordService.class, version = "1.0.0", check = false)
     private IncomeRecordService incomeRecordService;
     @Reference(interfaceClass = BidInfoService.class, version = "1.0.0", check = false)

@@ -28,12 +28,13 @@ public class QueryTradeTask {
     private RechargeRecordService rechargeRecordService;
     @Reference(interfaceClass = FinanceAccountService.class, version = "1.0.0", check = false)
     private FinanceAccountService financeAccountService;
-    //每10分钟执行
+
+    //每10分钟执行一次，支付宝订单查询接口
     @Scheduled(cron = "0 0/10 * * * ? ")
 //    @Scheduled(fixedDelay = 1000 * 30)
-    public void queryTrade(){
+    public void queryAliPayTrade(){
         String url = "http://localhost:8083/tradeQuery";
-        List<RechargeRecord> rechargeRecordList = rechargeRecordService.queryByStatus("0");
+        List<RechargeRecord> rechargeRecordList = rechargeRecordService.queryByStatusAndDesc("0", "支付宝");
         if (rechargeRecordList!=null){
             rechargeRecordList.forEach(x->{
                 Map<String, String> param = new HashMap<>();
@@ -58,8 +59,43 @@ public class QueryTradeTask {
                 }
 
                 rechargeRecordService.edit(record);
-                log.info("充值状态更新完毕");
+                log.info("支付宝充值状态更新完毕");
             });
+        }else {
+            log.info("支付宝没有充值状态为充值的中的数据");
+        }
+
+    }
+
+    //每10分钟执行一次，快钱的查询接口不能用，要企业证书才行
+    @Scheduled(cron = "0 0/10 * * * ? ")
+//    @Scheduled(fixedDelay = 1000 * 30)
+    public void queryBillPayTrade(){
+        String url = "http://localhost:8084/tradeQuery";
+        List<RechargeRecord> rechargeRecordList = rechargeRecordService.queryByStatusAndDesc("0", "快钱");
+        if (rechargeRecordList!=null){
+            rechargeRecordList.forEach(x->{
+                Map<String, String> param = new HashMap<>();
+                param.put("out_trade_no", x.getRechargeNo());
+                String body = null;
+                try {
+                    body = HttpClientUtils.doGet(url, param);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //快钱的查询接口不能用，要企业证书才行
+                String code = JSON.parseObject(body).getString("error");
+
+
+
+
+
+
+
+                log.info("快钱状态更新完毕");
+            });
+        }else {
+            log.info("快钱没有充值状态为充值的中的数据");
         }
 
     }

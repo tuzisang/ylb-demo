@@ -8,6 +8,7 @@
         <module>../005-money-web</module>
         <module>../006-money-task</module>
         <module>../007-money-alipay</module>
+        <module>../008-money-kuaiqian</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

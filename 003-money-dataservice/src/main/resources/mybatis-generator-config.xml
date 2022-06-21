@@ -41,7 +41,7 @@
                 true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal-->
             <property name="forceBigDecimals" value="true"/>
             <!--默认false
-                false，将所有 JDBC 的时间类型解析为 java.util.Date
+                false，将所有 JDBC 的时间类型解析为 java.com.kpay.money.util.Date
                 true，将 JDBC 的时间类型按如下规则解析
                     DATE	                -> java.time.LocalDate
                     TIME	                -> java.time.LocalTime

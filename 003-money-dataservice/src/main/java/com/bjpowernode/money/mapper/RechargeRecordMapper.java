@@ -26,5 +26,5 @@ public interface RechargeRecordMapper {
     //按照订单号查询
     RechargeRecord selectByNo(String no);
 
-    List<RechargeRecord> selectByStatus(String status);
+    List<RechargeRecord> selectByStatusAndDesc(String status, String desc);
 }

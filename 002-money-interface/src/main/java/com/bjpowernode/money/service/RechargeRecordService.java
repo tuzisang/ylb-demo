@@ -23,5 +23,6 @@ public interface RechargeRecordService {
 
     void edit(RechargeRecord record);
 
-    List<RechargeRecord> queryByStatus(String status);
+    List<RechargeRecord> queryByStatusAndDesc(String status , String desc);
+
 }

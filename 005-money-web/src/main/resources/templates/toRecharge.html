@@ -26,17 +26,35 @@
                 $(this).addClass('img_on').append("<i></i>");
                 $(this).parent().siblings().children().removeClass('img_on');
             });
+            $('#billpay').click(function () {
+                $(this).addClass('img_on').append("<i></i>");
+                $(this).parent().siblings().children().removeClass('img_on');
+            });
+
         });
 
         function checkData() {
             var alipay = $("#alipay").hasClass("img_on");
             var weixinpay = $("#weixinpay").hasClass("img_on");
-            if (alipay == false && weixinpay == false) {
+            var billpay = $("#billpay").hasClass("img_on");
+            if (alipay == false && weixinpay == false && billpay == false) {
                 $("#p1_1").html("请选择支付平台");
                 $(".input_text").addClass("input-red");
                 $("#div1_1").show();
                 return false;
             }
+
+            //设置支付类型的value
+            var payType = null;
+            if (alipay){
+                payType = "alipay";
+            }else if(weixinpay){
+                payType="weixinpay";
+            }else if (billpay){
+                payType="billpay";
+            }
+            $("#payType").val(payType);
+
             var doubleType = /^-?\d+\.?\d{0,3}$/;
             var rechargeMoney = $("#rechargeMoney").val();
             if (rechargeMoney == "") {
@@ -54,10 +72,12 @@
                 $("#div1_1").hide();
                 return true;
             }
+
         }
 
         //提交表单前验证表单数据
         function submitForm() {
+
             if (checkData()) {
                 $(".input_text").removeClass("input-red");
                 $("#div1_1").hide();
@@ -116,6 +136,12 @@
                                                 <img th:src="@{/images/weixinpay.jpg}"/>
                                             </div>
                                         </label>
+                                        <label>
+                                            <div class="img_cnt" id="billpay">
+                                                <img th:src="@{/images/billpay.jpg}"/>
+                                            </div>
+                                        </label>
+                                        <input id="payType" type="hidden" name="payType" value="">
                                     </div>
                                 </div>
                             </div>

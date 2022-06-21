@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="https://sandbox.99bill.com/gatewayapi/gatewayOrderQuery.do" method="post">
+
+    <input type="hidden" name="version" th:value="${version}">
+    <input type="hidden" name="signType" th:value="${signType}">
+    <input type="hidden" name="merchantAcctId" th:value="${merchantAcctId}">
+    <input type="hidden" name="queryType" th:value="${queryType}">
+    <input type="hidden" name="queryMode" th:value="${queryMode}">
+    <input type="hidden" name="orderId" th:value="${orderId}">
+    <input type="hidden" name="signMsg" th:value="${signMsg}">
+    <input type="hidden" name="startTime" th:value="20071117020101">
+    <input type="hidden" name="endTime" th:value="20301117020101">
+
+    <script>document.forms[0].submit();</script>
+</form>
+
+</body>
+</html>

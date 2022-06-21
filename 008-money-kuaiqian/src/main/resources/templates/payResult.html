@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>恭喜你！订单支付成功:</h1>
+<h2 th:text="|交易号:${dealId}|"></h2>
+<h2 th:text="|交易时间:${dealTime}|"></h2>
+<h2 th:text="|订单号:${orderId}|"></h2>
+<h2 th:text="|订单金额:${orderTime}|"></h2>
+<h2 th:text="|手续费:${fee}|"></h2>
+<h2 th:text="|银行id:${bankId}|"></h2>
+</body>
+</html>

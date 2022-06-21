@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>结算</title>
+</head>
+<body>
+<body>
+<form action="pay" method="post">
+    <input type="hidden" name="orderTime" th:value="${orderTime}"/>
+    <input type="hidden" name="orderId" th:value="${orderId}"/>
+    <input type="hidden" name="orderAmount" value="1"/>
+</form>
+<script>document.forms[0].submit();</script>
+</body>
+</body>
+</html>

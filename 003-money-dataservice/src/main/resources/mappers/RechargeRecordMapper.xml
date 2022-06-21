@@ -28,11 +28,12 @@
     ORDER BY recharge_time DESC
     limit ${(pageNum - 1) * pageSize}, #{pageSize}
   </select>
-  <select id="selectByStatus" resultMap="BaseResultMap">
+  <select id="selectByStatusAndDesc" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM `b_recharge_record`
     where `recharge_status` = #{status}
+    and `recharge_desc` like #{desc}
   </select>
 
   <select id="selectByNo" resultMap="BaseResultMap">

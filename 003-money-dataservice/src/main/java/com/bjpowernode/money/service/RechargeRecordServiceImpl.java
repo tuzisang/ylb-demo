@@ -78,7 +78,7 @@ public class RechargeRecordServiceImpl implements RechargeRecordService {
     }
 
     @Override
-    public List<RechargeRecord> queryByStatus(String status) {
-        return rechargeRecordMapper.selectByStatus(status);
+    public List<RechargeRecord> queryByStatusAndDesc(String status, String desc) {
+        return rechargeRecordMapper.selectByStatusAndDesc(status, desc);
     }
 }
