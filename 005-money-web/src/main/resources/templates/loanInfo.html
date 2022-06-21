@@ -12,6 +12,11 @@
     <script>
         $(function (){
             $("#investNow").click(function (){
+                if($("#bidMoney").val().length==0){
+                    alert("请输入金额");
+                    return;
+                }
+
                 $.ajax({
                     url:"/money/loan/addRecharge",
                     type:"post",
